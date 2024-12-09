@@ -1,5 +1,3 @@
-Here's a detailed and professional GitHub README template for your project:
-
 ---
 
 # Transformer Model for English-to-Italian Translation
@@ -49,13 +47,53 @@ Transformer Model for Language Translation
 This project uses the [Opus Books Dataset](https://huggingface.co/datasets/Helsinki-NLP/opus_books), a collection of translated texts for various language pairs. The dataset contains high-quality, sentence-aligned bilingual data, making it ideal for machine translation tasks. You can customize the dataset variant and use other language pairs by modifying the `config.py` file.
 
 ## Usage
-1. **Configuration**: Customize the training and model parameters in `src/config.py`. Update the dataset variant and language pair as needed.
-2. **Training**: Use `src/train.py` to train the model. Example:
+
+To train the Transformer Model on your custom Language pair.
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/saketjha34/Transformer-Model-for-Language-Translation
+    cd Transformer-Model-for-Language-Translation
+    ```
+
+2. Create and activate a virtual environment:
+    ```bash
+    python -m venv venv
+    source venv/bin/activate
+    ```
+
+3. Install the required packages:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. **Configuration**: Customize the training and model parameters in `src/config.py`. Update the dataset variant and language pair as needed.
+   
+5. **Access the Configuration:**
+   - Use the `get_config` method to retrieve the current configuration as a Python dictionary.
+   ```python
+   from config import ModelConfig
+   config = ModelConfig().get_config()
+   print(config)
+   ```
+   ### Dynamic Configuration During Training
+   You can also dynamically modify the configuration during runtime:
+   ```python
+   config['num_epochs'] = 40  # Change number of epochs
+   config['batch_size'] = 16  # Change batch size
+   config['lang_src'] = 'fr'  # change source language
+   config['lang_tgt'] = 'en'  # change target language
+   config[seq_len'] = 450     # change max sequnce length
+   ```
+     
+6. **Training**: Use `src/train.py` to train the model. Example:
    ```bash
    python src/train.py
    ```
-3. **Evaluation**: Evaluate the model using the metrics implemented in `src/evaluate.py`.
-4. **Testing**: Test the model on new sentences using `TestingNotebook.ipynb` in the `testing` folder.
+   
+7. **Evaluation**: Evaluate the model using the metrics implemented in `src/evaluate.py`.
+   
+8. **Testing**: Test the model on new sentences using `TestingNotebook.ipynb` in the `testing` folder.
 
 ### Explanation of the `src` Folder
 - `config.py`: Contains all configurable parameters, such as batch size, learning rate, and dataset paths.
@@ -98,5 +136,3 @@ Contributions are welcome! Please follow these steps:
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
-
-Let me know if you'd like to customize any section further!
