@@ -110,7 +110,7 @@ Below are the evaluation scores achieved during training and validation:
 
 | Metric         | Training Score | Validation Score |
 |----------------|----------------|-------------------|
-| BLEU           | **41.5**       | **40.1**         |
+| BLEU           | **46**       | **40.1**         |
 | TER            | **58.0**       | **63.0**         |
 | METEOR         | **0.47**       | **0.45**         |
 
