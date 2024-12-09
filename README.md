@@ -1,5 +1,3 @@
-Here's a detailed and professional GitHub README template for your project:
-
 ---
 
 # Transformer Model for English-to-Italian Translation
@@ -49,13 +47,56 @@ Transformer Model for Language Translation
 This project uses the [Opus Books Dataset](https://huggingface.co/datasets/Helsinki-NLP/opus_books), a collection of translated texts for various language pairs. The dataset contains high-quality, sentence-aligned bilingual data, making it ideal for machine translation tasks. You can customize the dataset variant and use other language pairs by modifying the `config.py` file.
 
 ## Usage
-1. **Configuration**: Customize the training and model parameters in `src/config.py`. Update the dataset variant and language pair as needed.
-2. **Training**: Use `src/train.py` to train the model. Example:
+
+To train the Transformer Model on your custom Language pair.
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/saketjha34/Transformer-Model-for-Language-Translation
+    cd Transformer-Model-for-Language-Translation
+    ```
+
+2. Create and activate a virtual environment:
+    ```bash
+    python -m venv venv
+    source venv/bin/activate
+    ```
+
+3. Install the required packages:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. **Configuration**: Customize the training and model parameters in `src/config.py`. Update the dataset variant and language pair as needed.
+   
+5. **Access the Configuration:**
+   - Use the `get_config` method to retrieve the current configuration as a Python dictionary.
+   ```python
+   from config import ModelConfig
+   config = ModelConfig().get_config()
+   print(config)
+   ```
+   ### Dynamic Configuration During Training
+   You can also dynamically modify the configuration during runtime:
+   ```python
+   config['num_epochs'] = 40  # Change number of epochs
+   config['batch_size'] = 16  # Change batch size
+   config['lang_src'] = 'fr'  # change source language
+   config['lang_tgt'] = 'en'  # change target language
+   config[seq_len'] = 450     # change max sequnce length
+   ```
+     
+6. **Training**: Use `src/train.py` to train the model. Example:
    ```bash
    python src/train.py
    ```
-3. **Evaluation**: Evaluate the model using the metrics implemented in `src/evaluate.py`.
-4. **Testing**: Test the model on new sentences using `TestingNotebook.ipynb` in the `testing` folder.
+   
+7. **Evaluation**: Evaluate the model using the metrics implemented in `src/evaluate.py`.
+   ```bash
+   python src/evaluate.py
+   ```
+   
+9. **Testing**: Test the model on new sentences using `TestingNotebook.ipynb` in the `testing` folder.
 
 ### Explanation of the `src` Folder
 - `config.py`: Contains all configurable parameters, such as batch size, learning rate, and dataset paths.
@@ -84,6 +125,44 @@ Key features of the Transformer architecture:
 ## Deployment
 To test the model on custom English sentences, refer to the `TestingNotebook.ipynb` in the `testing` folder. It demonstrates how to load the trained model and perform translation with ease.
 
+Here is a Code Snippet for Instant Deployment and Testing:
+- **Deployment** -> head over to `testing/` folder
+
+  ```bash
+  python deployment.py
+  ```
+  ```python
+  import torch
+  from tokenizers import Tokenizer
+  from model import build_transformer
+  from utils.utils import greedy_decode, translate_english_to_italian, causal_mask
+    
+  device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+  tokenizer_src = Tokenizer.from_file("src_tokenizer_path")
+  tokenizer_tgt = Tokenizer.from_file("target_tokenizer_path")
+  vocab_src_len = tokenizer_src.get_vocab_size()
+  vocab_tgt_len = tokenizer_tgt.get_vocab_size()
+  seq_len = 350
+    
+  model = build_transformer(vocab_src_len, vocab_tgt_len, seq_len, seq_len,).to(device)
+  model.load_state_dict(torch.load('path_to_your_pretrained_model', map_location=device))
+  model.to(device)
+    
+  english_sentence = "How are you?"
+  italian_sentence = "Come stai?"
+  predicted_italian_sentence = translate_english_to_italian(
+                                        model=model,
+                                        tokenizer_src=tokenizer_src,
+                                        tokenizer_tgt=tokenizer_tgt,
+                                        english_sentence=english_sentence,
+                                        max_len=350,
+                                        device=device)
+    
+  print(f"English Sentence : {english_sentence}")
+  print(f"Actual Italian Sentence : {italian_sentence}")
+  print(f"Translated Italian Sentence : {predicted_italian_sentence}")
+  ```
+
 ## References
 1. **Transformer Paper**: ["Attention Is All You Need"](https://arxiv.org/abs/1706.03762)
 2. **Opus Books Dataset**: [Hugging Face Dataset Page](https://huggingface.co/datasets/Helsinki-NLP/opus_books)
@@ -98,5 +177,3 @@ Contributions are welcome! Please follow these steps:
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
-
-Let me know if you'd like to customize any section further!
