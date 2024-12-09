@@ -92,8 +92,11 @@ To train the Transformer Model on your custom Language pair.
    ```
    
 7. **Evaluation**: Evaluate the model using the metrics implemented in `src/evaluate.py`.
+   ```bash
+   python src/evaluate.py
+   ```
    
-8. **Testing**: Test the model on new sentences using `TestingNotebook.ipynb` in the `testing` folder.
+9. **Testing**: Test the model on new sentences using `TestingNotebook.ipynb` in the `testing` folder.
 
 ### Explanation of the `src` Folder
 - `config.py`: Contains all configurable parameters, such as batch size, learning rate, and dataset paths.
